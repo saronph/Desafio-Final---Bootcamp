@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
 
@@ -13,11 +14,24 @@ class HelpOrderController {
   }
 
   async post(req, res) {
-    const { id } = req.params;
-    const { question } = req.body;
+    const schema = Yup.object().shape({
+      student_id: Yup.number().required(),
+      question: Yup.string().required(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { student_id, question } = req.body;
+
+    const validStudent = await Student.findByPk(student_id);
+
+    if (!validStudent)
+      return res.status(401).json({ error: "This student doesn't exist!" });
 
     const addHelp = await HelpOrder.create({
-      student_id: id,
+      student_id,
       question,
     });
 
@@ -38,7 +52,7 @@ class HelpOrderController {
         {
           model: Student,
           as: 'student',
-          attributes: ['nome', 'email'],
+          attributes: ['name', 'email'],
         },
       ],
     });

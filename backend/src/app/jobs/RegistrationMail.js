@@ -1,5 +1,4 @@
 import { format, parseISO } from 'date-fns';
-import pt from 'date-fns/locale/pt';
 import Mail from '../../lib/Mail';
 
 class RegistrationMail {
@@ -7,22 +6,27 @@ class RegistrationMail {
     return 'RegistrationMail';
   }
 
-  // executa tarefa, em cada email
   async handle({ data }) {
     const { registrationComplete } = data;
 
     await Mail.sendMail({
-      to: `${registrationComplete.student.nome} <${registrationComplete.student.email}>`,
-      subject: 'Matrícula realizada com sucesso!',
+      to: `${registrationComplete.student.name} <${registrationComplete.student.email}>`,
+      subject: 'Registration completed successfully!',
       template: 'registration',
       context: {
-        student: registrationComplete.student.nome,
+        student: registrationComplete.student.name,
+        plan: registrationComplete.plan.title,
+        price: Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(registrationComplete.price),
         date: format(
           parseISO(registrationComplete.start_date),
-          "'dia' dd 'de' MMMM', às' H:mm'h'",
-          {
-            locale: pt,
-          }
+          "MMMM dd'th', yyyy'"
+        ),
+        endDate: format(
+          parseISO(registrationComplete.end_date),
+          "MMMM dd'th', yyyy'"
         ),
       },
     });

@@ -30,10 +30,7 @@ class Queue {
 
   processQueue() {
     jobs.forEach(job => {
-      // pega bee e handle da fila relacionado com o job
       const { bee, handle } = this.queues[job.key];
-
-      // add verificação de erro com 'on'
       bee.on('failed', this.handleFailure).process(handle);
     });
   }
