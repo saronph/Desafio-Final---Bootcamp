@@ -4,13 +4,13 @@ import Student from '../models/Student';
 class StudentController {
   async store(req, res) {
     const schema = Yup.object().shape({
-      nome: Yup.string().required(),
+      name: Yup.string().required(),
       email: Yup.string()
         .email()
         .required(),
-      idade: Yup.number().required(),
-      peso: Yup.number().required(),
-      altura: Yup.number().required(),
+      age: Yup.number().required(),
+      weight: Yup.number().required(),
+      height: Yup.number().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -25,24 +25,24 @@ class StudentController {
       return res.status(400).json({ error: 'Student already exists.' });
     }
 
-    const { nome, email, idade, peso, altura } = await Student.create(req.body);
+    const { name, email, age, weight, height } = await Student.create(req.body);
 
     return res.json({
-      nome,
+      name,
       email,
-      idade,
-      peso,
-      altura,
+      age,
+      weight,
+      height,
     });
   }
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      nome: Yup.string(),
+      name: Yup.string(),
       email: Yup.string().email(),
-      idade: Yup.number(),
-      peso: Yup.number(),
-      altura: Yup.number(),
+      age: Yup.number(),
+      weight: Yup.number(),
+      height: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -66,9 +66,9 @@ class StudentController {
       }
     }
 
-    const { nome, idade, peso, altura } = await student.update(req.body);
+    const { name, age, weight, height } = await student.update(req.body);
 
-    return res.json({ id, nome, email, idade, peso, altura });
+    return res.json({ id, name, email, age, weight, height });
   }
 }
 

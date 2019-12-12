@@ -12,11 +12,13 @@ import CheckinController from './app/controllers/CheckinController';
 
 const routes = new Router();
 
+routes.post('/sessions', SessionController.store);
+
 routes.post('/students/:id/checkins', CheckinController.store);
+routes.post('/students/:id/helporders', HelpOrderController.post);
+routes.get('/students/:id/helporders', HelpOrderController.index);
 
 routes.use(authMiddleware);
-
-routes.post('/sessions', SessionController.store);
 
 routes.post('/students', StudentController.store);
 routes.put('/students/:id', StudentController.update);
@@ -31,11 +33,9 @@ routes.get('/registrations', RegistrationController.index);
 routes.put('/registrations/:id', RegistrationController.update);
 routes.delete('/registrations/:id', RegistrationController.delete);
 
-routes.get('/students/:id/checkins', CheckinController.index);
-
-routes.get('/students/:id/helporders', HelpOrderController.index);
-routes.post('/students/:id/helporders', HelpOrderController.post);
 routes.put('/students/:id/helporders', HelpOrderController.update);
+
+routes.get('/students/:id/checkins', CheckinController.index);
 
 routes.get('/students/:id/orders', OrderController.index);
 

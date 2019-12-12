@@ -7,8 +7,6 @@ import Student from '../models/Student';
 import RegistrationMail from '../jobs/RegistrationMail';
 import Queue from '../../lib/Queue';
 
-import Mail from '../../lib/Mail';
-
 class RegistrationController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -45,6 +43,7 @@ class RegistrationController {
     const plan = await Plan.findByPk(plan_id);
 
     const endOfPlan = addMonths(parseISO(start_date), plan.duration);
+
     const finalPrice = plan.price * plan.duration;
 
     const registration = await Registration.create({
@@ -60,7 +59,7 @@ class RegistrationController {
         {
           model: Student,
           as: 'student',
-          attributes: ['nome', 'email'],
+          attributes: ['name', 'email'],
         },
         {
           model: Plan,
@@ -68,12 +67,6 @@ class RegistrationController {
           attributes: ['title'],
         },
       ],
-    });
-
-    await Mail.sendMail({
-      to: `${registrationComplete.student.nome} <${registrationComplete.student.email}>`,
-      subject: 'Matrícula realizada com sucesso!',
-      text: 'Seja bem vindo a Gympoint!',
     });
 
     await Queue.add(RegistrationMail.key, {
@@ -111,8 +104,6 @@ class RegistrationController {
 
     const { id } = req.params;
 
-    const registration = await Registration.findByPk(id);
-
     const { plan_id, student_id, start_date } = req.body;
 
     const checkPlan = await Plan.findByPk(plan_id);
@@ -136,6 +127,8 @@ class RegistrationController {
 
     const endOfPlan = addMonths(parseISO(start_date), plan.duration);
     const finalPrice = plan.price * plan.duration;
+
+    const registration = await Registration.findByPk(id);
 
     const setRegistration = await registration.update({
       id,
