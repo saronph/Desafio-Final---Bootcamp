@@ -39,31 +39,32 @@ class HelpOrderController {
   }
 
   async update(req, res) {
-    const { id } = req.params;
-    const { answer } = req.body;
+    const schema = Yup.object().shape({
+      student_id: Yup.number(),
+      help_orders_id: Yup.number(),
+      answer: Yup.string(),
+    });
 
-    if (!id) {
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails' });
+    }
+
+    const { student_id, help_order_id } = req.params;
+    const { help_orders_id, answer } = req.body;
+
+    if (!help_order_id) {
       return res.status(400).json({ error: 'Id invalid' });
     }
 
-    const helpOrders = await HelpOrder.findOne({
-      where: { student_id: id },
-      include: [
-        {
-          model: Student,
-          as: 'student',
-          attributes: ['name', 'email'],
-        },
-      ],
-    });
+    const student = await Student.findByPk(student_id);
 
-    if (!helpOrders) {
-      return res.status(400).json({ error: 'Help order not found' });
-    }
+    const help_order = await HelpOrder.findByPk(help_order_id);
 
     const helpAnswer = new Date();
 
-    await helpOrders.update({
+    const setAnswer = await help_order.update({
+      student,
+      help_order: help_orders_id,
       answer,
       answer_at: helpAnswer,
     });
@@ -73,7 +74,7 @@ class HelpOrderController {
       registrationComplete,
     }); */
 
-    return res.json(helpOrders);
+    return res.json(setAnswer);
   }
 }
 
