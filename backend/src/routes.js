@@ -33,10 +33,12 @@ routes.get('/registrations', RegistrationController.index);
 routes.put('/registrations/:id', RegistrationController.update);
 routes.delete('/registrations/:id', RegistrationController.delete);
 
-routes.put('/students/:id/helporders', HelpOrderController.update);
+routes.put('/students/:id/helporders/:id', HelpOrderController.update);
+routes.post('/students/:id/helporders/:id', OrderController.index);
 
 routes.get('/students/:id/checkins', CheckinController.index);
 
+routes.post('/helporders/:id/answer', OrderController.post);
 routes.get('/students/:id/orders', OrderController.index);
 
 export default routes;

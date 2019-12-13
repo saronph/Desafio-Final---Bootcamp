@@ -1,9 +1,9 @@
 import express from 'express';
 import * as Sentry from '@sentry/node';
 import Youch from 'youch';
-import 'express-async-errors';
 import routes from './routes';
 import sentryConfig from './config/sentry';
+import 'express-async-errors';
 
 import './database';
 
