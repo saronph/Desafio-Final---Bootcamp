@@ -1,4 +1,5 @@
 import { parseISO, isBefore, addMonths, startOfDay } from 'date-fns';
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
 import Registration from '../models/Registration';
 import Plan from '../models/Plan';
@@ -77,15 +78,23 @@ class RegistrationController {
   }
 
   async index(req, res) {
+    const { q: query } = req.query;
+
     const registrations = await Registration.findAll({
-      attributes: [
-        'id',
-        'student_id',
-        'plan_id',
-        'start_date',
-        'end_date',
-        'price',
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'email', 'age'],
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['title', 'duration', 'price'],
+        },
       ],
+      where: query ? { name: { [Op.iLike]: `%${query}%` } } : {},
     });
 
     return res.json(registrations);
