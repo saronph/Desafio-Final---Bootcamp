@@ -6,9 +6,9 @@ import PlanController from './app/controllers/PlanController';
 import RegistrationController from './app/controllers/RegistrationController';
 import HelpOrderController from './app/controllers/HelpOrderController';
 import OrderController from './app/controllers/OrderController';
-import authMiddleware from './app/middlewares/auth';
-
 import CheckinController from './app/controllers/CheckinController';
+
+import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
