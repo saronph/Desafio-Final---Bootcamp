@@ -17,3 +17,10 @@ export function signFailure() {
     type: '@auth/SIGN_FAILURE',
   };
 }
+
+export function regStudentRequest(name, email, age, weight, height, token) {
+  return {
+    type: '@auth/REG_STUDENT_REQUEST',
+    payload: { name, email, age, weight, height, token },
+  };
+}
