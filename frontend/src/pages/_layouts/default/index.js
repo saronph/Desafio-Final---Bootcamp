@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Header from '~/components/Header/index';
+
 import { Wrapper, Content } from './styles';
 
 export default function AuthLayout({ children }) {
   return (
     <Wrapper>
+      <Header />
       <Content>{children}</Content>
     </Wrapper>
   );
