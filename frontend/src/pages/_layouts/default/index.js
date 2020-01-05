@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 
 import Header from '~/components/Header/index';
 
-import { Wrapper, Content } from './styles';
+import { Wrapper } from './styles';
 
-export default function AuthLayout({ children }) {
+export default function DefaultLayout({ children }) {
   return (
     <Wrapper>
       <Header />
-      <Content>{children}</Content>
+      {children}
     </Wrapper>
   );
 }
 
-AuthLayout.propTypes = {
+DefaultLayout.propTypes = {
   children: PropTypes.element.isRequired,
 };

@@ -70,6 +70,14 @@ class StudentController {
 
     return res.json({ id, name, email, age, weight, height });
   }
+
+  async index(req, res) {
+    const students = await Student.findAll({
+      attributes: ['name', 'email', 'age'],
+    });
+
+    return res.json(students);
+  }
 }
 
 export default new StudentController();

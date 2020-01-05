@@ -7,17 +7,31 @@ export const Wrapper = styled.div`
 `;
 
 export const Content = styled.div`
-  align-self: center;
   width: 100%;
-  max-width: 900px;
+  height: 100%;
+  max-width: 950px;
+  max-height: 300px;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
   background: #ffffff;
 
   form {
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 30px;
-    flex-direction: column;
+    display: absolute;
     margin-top: 30px;
-    height: 100%;
+    padding: 20px;
+    grid-column-gap: 0;
+    justify-content: space-evenly;
+
+    strong {
+      position: absolute;
+      padding-left: 10px;
+    }
 
     input {
       background: #ffffff;
@@ -26,9 +40,10 @@ export const Content = styled.div`
       border-style: solid;
       border-color: #f5f5f5;
       height: 44px;
-      padding: 0 15px;
       color: #444444;
-      margin: 0 0 10px;
+      padding: 20px;
+      margin: 10px;
+      margin-top: 10px;
 
       &::placeholder {
         color: #a9a9a9;
@@ -38,6 +53,7 @@ export const Content = styled.div`
     button {
       margin: 5px 0 0;
       height: 55px;
+      width: 100px;
       background: #ee4f64;
       font-weight: bold;
       color: #fff;

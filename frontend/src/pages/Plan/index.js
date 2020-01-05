@@ -1,36 +1,36 @@
 import React, { Component } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import api from '~/services/api';
 import history from '~/services/history';
 
-import { Content, Table } from './styles';
+import { Container, Content, Table } from './styles';
 
 import {
   ContainerForm,
+  MyForm,
   TitleWrapper,
 } from '~/styles/components';
 
-export default class StudentList extends Component {
+export default class PlanList extends Component {
   state = {
-    students: [],
+    plans: [],
   };
 
   async componentDidMount() {
-    const response = await api.get('students');
+    const response = await api.get('plans');
 
-    this.setState({ students: response.data })
+    this.setState({ plans: response.data })
   }
 
   render() {
-    const {students } = this.state;
+    const {plans } = this.state;
 
   return (
     <ContainerForm>
       <TitleWrapper>
-        <strong>Student management</strong>
+        <strong>Plans management</strong>
         <div>
-          <button type="button" onClick={() => history.push('/dashboard')}>Register</button>
+          <button type="button" onClick={() => history.push('/planRegister')}>Register</button>
         </div>
       </TitleWrapper>
 
@@ -42,28 +42,28 @@ export default class StudentList extends Component {
                 <strong>NAME</strong>
               </th>
               <th>
-                <strong>E-mail</strong>
+                <strong>PRICE (PER MONTH)</strong>
               </th>
               <th>
-                <strong>AGE</strong>
+                <strong>DURATION (IN MONTHS)</strong>
               </th>
             </tr>
           </thead>
           <tbody>
-            {students.map(student => (
-              <tr key={student.id}>
+            {plans.map(plan => (
+              <tr key={plan.id}>
                 <td>
-                  <span>{student.name}</span>
+                  <span>{plan.title}</span>
                 </td>
                 <td>
-                  <span>{student.email}</span>
+                  <span>{plan.price}</span>
                 </td>
                 <td>
-                  <span>{student.age}</span>
+                  <span>{plan.duration}</span>
                 </td>
                 <td>
                   <div>
-                    <Link to={`/students/${student.id}`}>editar</Link>
+                    <Link>editar</Link>
                     <button type="button">apagar</button>
                   </div>
                 </td>
