@@ -28,6 +28,31 @@ export function* signIn({ payload }) {
   }
 }
 
+export function* regStudent({ payload }) {
+  try {
+    const { name, email, age, weight, height } = payload;
+
+    yield call(api.post, 'students', {
+      name,
+      email,
+      age,
+      weight,
+      height,
+    });
+
+    toast.success('Student successfully registered');
+    history.push('/');
+  } catch (err) {
+    const emailExist = 400;
+
+    if (emailExist) {
+      return toast.error('The student already has a registration');
+    }
+
+    return toast.error('Error, check the data');
+  }
+}
+
 export function setToken({ payload }) {
   if (!payload) return;
 
@@ -41,4 +66,5 @@ export function setToken({ payload }) {
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+  takeLatest('@auth/REG_STUDENT_REQUEST', regStudent),
 ]);
